@@ -21,11 +21,13 @@ export default {
 </script>
 
 <script setup lang="ts">
-import { reactive } from 'vue';
+import { onMounted, reactive } from 'vue';
+import { emitter } from './ValidateForm.vue';
 
 export interface RuleProp {
-  type: 'required' | 'email';
-  message: string;
+  type: 'required' | 'email' | 'custom';
+  message?: string;
+  validator?: () => boolean;
 }
 export type RulesProp = RuleProp[];
 
@@ -48,7 +50,7 @@ const validateInput = () => {
   if (props.rules) {
     const allPassed = props.rules.every(rule => {
       let passed = true;
-      inputRef.message = rule.message;
+      inputRef.message = rule.message || '';
       switch (rule.type) {
         case 'required':
           passed = inputRef.val.trim() !== '';
@@ -62,8 +64,19 @@ const validateInput = () => {
       return passed;
     });
     inputRef.error = !allPassed;
+    return allPassed;
   }
+  return true;
 };
+
+const clearInput = () => {
+  inputRef.val = '';
+};
+
+onMounted(() => {
+  // 传送信号 - 函数
+  emitter.emit('form-item-created', { validator: validateInput, clearInput });
+});
 </script>
 
 <style></style>
