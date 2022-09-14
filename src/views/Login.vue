@@ -1,7 +1,5 @@
 <template>
   <div class="container">
-    <!-- 顶部 -->
-    <GlobalHeader :user="currentUser" />
     <!-- 表单 -->
     <ValidateForm @form-submit="onFormSubmit" ref="loginForm">
       <!-- 输入邮箱和密码 -->
@@ -25,16 +23,13 @@
 <script setup lang="ts">
 import type { RulesProp } from '@/components/ValidateInput.vue';
 import { ref } from 'vue';
-import GlobalHeader, { type UserProps } from '../components/GlobalHeader.vue';
 import ValidateInput from '../components/ValidateInput.vue';
 import ValidateForm from '../components/ValidateForm.vue';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 const loginForm = ref();
-
-const currentUser: UserProps = {
-  isLogin: true,
-  name: 'deexiao'
-};
 
 const emailVal = ref('');
 const emailRules: RulesProp = [
@@ -47,7 +42,7 @@ const passwordRules: RulesProp = [{ type: 'required', message: '密码不能为�
 
 const onFormSubmit = (result: boolean) => {
   if (result) {
-    console.log('success!');
+    router.push({ name: 'column', params: { id: 1 } });
   } else {
     loginForm.value.clearInputs();
   }
