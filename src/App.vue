@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <GlobalHeader :user="currentUser" />
+    <GlobalHeader :user="user" />
     <RouterView />
     <footer class="text-center py-4 text-secondary bg-light mt-6">
       <small>
@@ -18,11 +18,12 @@
 
 <script setup lang="ts">
 import { RouterView } from 'vue-router';
-import GlobalHeader, { type UserProps } from './components/GlobalHeader.vue';
+import GlobalHeader from './components/GlobalHeader.vue';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { useStore } from '@/stores/index';
+import { computed } from 'vue';
 
-const currentUser: UserProps = {
-  isLogin: true,
-  name: 'viking'
-};
+const store = useStore();
+
+const user = computed(() => store.user);
 </script>

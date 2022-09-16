@@ -12,11 +12,16 @@
       </div>
     </section>
     <h4 class="font-weight-bold text-center">发现精彩</h4>
-    <ColumnList :list="testData" />
+    <ColumnList :list="list" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { testData } from '../testData';
 import ColumnList from '../components/ColumnList.vue';
+import { useStore } from '@/stores/index';
+import { computed } from 'vue';
+
+const store = useStore();
+
+const list = computed(() => store.columns);
 </script>

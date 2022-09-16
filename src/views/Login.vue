@@ -26,8 +26,10 @@ import { ref } from 'vue';
 import ValidateInput from '../components/ValidateInput.vue';
 import ValidateForm from '../components/ValidateForm.vue';
 import { useRouter } from 'vue-router';
+import { useStore } from '@/stores/index';
 
 const router = useRouter();
+const store = useStore();
 
 const loginForm = ref();
 
@@ -42,7 +44,8 @@ const passwordRules: RulesProp = [{ type: 'required', message: '密码不能为�
 
 const onFormSubmit = (result: boolean) => {
   if (result) {
-    router.push({ name: 'column', params: { id: 1 } });
+    router.push('/');
+    store.login();
   } else {
     loginForm.value.clearInputs();
   }
