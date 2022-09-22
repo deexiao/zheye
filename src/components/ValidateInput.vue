@@ -2,6 +2,7 @@
   <div class="validate-input-container pb-3">
     <!-- v-bind="$attrs" 用于继承到该元素上面去 -->
     <input
+      v-if="tag !== 'textarea'"
       class="form-control"
       :class="{ 'is-invalid': inputRef.error }"
       :value="inputRef.val"
@@ -9,6 +10,16 @@
       @input="updateValue"
       v-bind="$attrs"
     />
+    <textarea
+      v-else
+      class="form-control"
+      :class="{ 'is-invalid': inputRef.error }"
+      :value="inputRef.val"
+      @blur="validateInput"
+      @input="updateValue"
+      v-bind="$attrs"
+    >
+    </textarea>
     <span v-if="inputRef.error" class="invalid-feedback">{{ inputRef.message }}</span>
   </div>
 </template>
@@ -30,10 +41,11 @@ export interface RuleProp {
   validator?: () => boolean;
 }
 export type RulesProp = RuleProp[];
+export type TagType = 'input' | 'textarea';
 
 const emailReg: any = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
-const props = defineProps<{ rules: RulesProp; modelValue: string }>();
+const props = defineProps<{ rules: RulesProp; modelValue: string; tag?: TagType }>();
 
 const inputRef = reactive({ val: props.modelValue || '', error: false, message: '' });
 

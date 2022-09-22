@@ -13,7 +13,7 @@
       <li class="list-inline-item">
         <Dropdown :title="`你好 ${props.user.name}`">
           <DropdownItem>
-            <a href="#" class="dropdown-item">新建文章</a>
+            <router-link to="/create" class="dropdown-item">新建文章</router-link>
           </DropdownItem>
           <!-- :disabled="true" 等价于 disabled -->
           <DropdownItem :disabled="true">
